@@ -28,7 +28,7 @@ func TestAllow (t *testing.T) {
 	a.Role("user", "guest")
 	
 	a.Allow([]string{"user"}, "create", "resources")
-	a.Allow([]string{"guest"}, "view", "resources")
+	a.Allow("guest", "view", "resources")
 	
 	if !a.Can([]string{"user"}, "create", "resources") {
 		t.Errorf("expected user to be able to create resources")

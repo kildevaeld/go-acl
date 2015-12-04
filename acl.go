@@ -92,7 +92,7 @@ func (self *ACL) Role(name string, inherits string) *ACL {
 	return self
 }
 
-func (self *ACL) Allow(roles []string, action string, resource interface{}) *ACL {
+func (self *ACL) Allow(rolable interface{}, action string, resource interface{}) *ACL {
 
 	resourceStr := resourceStringFromInterface(resource)
 
@@ -104,6 +104,8 @@ func (self *ACL) Allow(roles []string, action string, resource interface{}) *ACL
 		Action:   action,
 		Resource: resourceStr,
 	}
+
+	roles := rolesFromInterface(rolable)
 
 	for _, roleName := range roles {
 
@@ -134,7 +136,7 @@ func (self *ACL) RemoveRole(name string) error {
 	return nil
 }
 
-func (self *ACL) Can(roles []string, action string, resource interface{}) bool {
+func (self *ACL) Can(rolable interface{}, action string, resource interface{}) bool {
 
 	resourceStr := resourceStringFromInterface(resource)
 
@@ -146,6 +148,8 @@ func (self *ACL) Can(roles []string, action string, resource interface{}) bool {
 		Action:   action,
 		Resource: resourceStr,
 	}
+	
+	roles := rolesFromInterface(rolable)
 
 	for _, roleName := range roles {
 
@@ -161,6 +165,22 @@ func (self *ACL) Can(roles []string, action string, resource interface{}) bool {
 	}
 
 	return false
+}
+
+func rolesFromInterface (role interface{}) (roles []string) {
+	
+	if s, ok := role.(string); ok {
+		roles = []string{s}
+	} else if ss, ok := role.([]string); ok {
+		roles = ss
+	} else {
+		roleString := resourceStringFromInterface(role)
+		if roleString != "" {
+			roles = []string{roleString}
+		}
+	}
+	
+	return
 }
 
 func resourceStringFromInterface(resource interface{}) string {
