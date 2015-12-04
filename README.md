@@ -9,7 +9,7 @@ a := acl.NewAcl(acl.NewMemoryStore())
 
 a.Role("guest","")
 a.Role("user", "guest") // user inherits guest
-a.Role("admin", "user")
+a.Role("admin", "user") // admin inherits user and guest
 
 a.Allow([]string{"user"}, "comment", "blog")
 a.Allow([]string{"guest"}, "read", "blog")
