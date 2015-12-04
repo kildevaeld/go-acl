@@ -30,6 +30,7 @@ type Blog struct {
   Title string
   Body  string
 }
+
 // ACLType interface
 func (b *Blog) ACLType () string {
   return "blog"
@@ -39,13 +40,34 @@ func (b *Blog) ACLIdentifier () string {
   return fmt.Sprintf("%d", b.Id)
 }
 
+type User struct {
+  Id int
+  Name string
+}
+
+// ACLType interface
+func (u *User) ACLType () string {
+  return "user"
+}
+// ACLIdentity interface
+func (u *User) ACLIdentifier () string {
+  return fmt.Sprintf("%d", b.Id)
+}
+
+u := &User{
+  Id: 2, 
+  Name: "Salty Mcgee",
+}
+
 b := &Blog{
   Id: 1,
   Title: "Blog title",
   Body: "Some body text",
 }
 
-a.Allow([]string{"user"}, "modify", b)
-// same as: a.Allow([]string{"user"}, "modify", "blog:1")
+a.Allow(u, "modify", b)
+// same as: a.Allow("user:2", "modify", "blog:1")
+a.Can(u, "modify", b)
+// a.Can("user:1", "modify", "blog:1")
 
 ```
