@@ -8,7 +8,7 @@ import "github.com/kildevaeld/go-acl"
 a := acl.NewAcl(acl.NewMemoryStore())
 
 a.Role("guest","")
-a.Role("user", "guest")
+a.Role("user", "guest") // user inherits guest
 a.Role("admin", "user")
 
 a.Allow([]string{"user"}, "comment", "blog")
