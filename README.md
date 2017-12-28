@@ -68,6 +68,6 @@ b := &Blog{
 a.Allow(u, "modify", b)
 // same as: a.Allow("user:2", "modify", "blog:1")
 a.Can(u, "modify", b)
-// a.Can("user:1", "modify", "blog:1")
+// a.Can("user:2", "modify", "blog:1")
 
 ```
